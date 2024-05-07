@@ -1,2 +1,2 @@
 # netbeans-platform-projects
- includes projects includes netbeans platform
+ projects that using netbeans platform
