@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><module codename="org.word.editor.history">
+    <module_version install_time="1715066600905" last="true" origin="installer" specification_version="1.0">
+        <file crc="2258041028" name="config/Modules/org-word-editor-history.xml"/>
+        <file crc="4214036729" name="modules/org-word-editor-history.jar"/>
+    </module_version>
+</module>

@@ -1,0 +1,9 @@
+C:\Program Files\NetBeans-15\netbeans\platform=1661513418000
+cluster.C:/Users/bites/Desktop/projects/WordProcessor/build/cluster=1715066601386
+cluster.C:/Program Files/NetBeans-15/netbeans/platform=1661513418000
+user=1715066601386
+crc=7
+locale=en_US
+branding=wordprocessor
+java.version=11.0.13
+java.vm.version=11.0.13+10-LTS-370

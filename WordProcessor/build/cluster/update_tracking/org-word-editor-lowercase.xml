@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><module codename="org.word.editor.lowercase">
+    <module_version install_time="1715066601085" last="true" origin="installer" specification_version="1.0">
+        <file crc="3168236744" name="config/Modules/org-word-editor-lowercase.xml"/>
+        <file crc="3511186381" name="modules/org-word-editor-lowercase.jar"/>
+    </module_version>
+</module>
