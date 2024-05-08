@@ -5,6 +5,7 @@
 package org.myorg.myviewer;
 
 import java.util.Collection;
+import java.util.Iterator;
 import org.myorg.myapi.Event;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
@@ -119,11 +120,21 @@ public final class MyViewerTopComponent extends TopComponent implements LookupLi
     public void resultChanged(LookupEvent le) {
         Collection<? extends Event> allEvents = result.allInstances();
         if (!allEvents.isEmpty()) {
-            Event event = allEvents.iterator().next();
-            jLabel1.setText(Integer.toString(event.getIndex()));
-            jLabel2.setText(event.getDate().toString());
+            StringBuilder text1 = new StringBuilder();
+            StringBuilder text2 = new StringBuilder();
+            for (Iterator i = allEvents.iterator(); i.hasNext();) {
+                Event o = (Event) i.next();
+                text1.append(o.getIndex());
+                text2.append(o.getDate().toString());
+                if (i.hasNext()) {
+                    text1.append(',');
+                    text2.append(',');
+                }
+            }
+            jLabel1.setText(text1.toString());
+            jLabel2.setText(text2.toString());
         } else {
-            jLabel1.setText("[Nothing selected]");
+            jLabel1.setText("[no selection]");
             jLabel2.setText("");
         }
     }
