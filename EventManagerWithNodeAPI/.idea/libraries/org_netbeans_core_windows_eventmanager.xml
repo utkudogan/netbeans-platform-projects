@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="org-netbeans-core-windows_eventmanager">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/build/cluster/modules/locale/org-netbeans-core-windows_eventmanager.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
