@@ -4,13 +4,16 @@
  */
 package org.myorg.myeditor;
 
-import java.util.Collections;
+import java.awt.BorderLayout;
 import org.myorg.myapi.Event;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
+import org.openide.explorer.ExplorerManager;
+import org.openide.explorer.ExplorerUtils;
+import org.openide.explorer.view.BeanTreeView;
+import org.openide.nodes.AbstractNode;
+import org.openide.nodes.Children;
 import org.openide.util.NbBundle;
-import org.openide.util.lookup.AbstractLookup;
-import org.openide.util.lookup.InstanceContent;
 import org.openide.windows.TopComponent;
 
 /**
@@ -18,29 +21,35 @@ import org.openide.windows.TopComponent;
  * @author bites
  */
 @TopComponent.Description(
-        preferredID = "MyEditorSingletonTopComponent",
+        preferredID = "MyEditorTopComponent",
         persistenceType = TopComponent.PERSISTENCE_ALWAYS)
 @TopComponent.Registration(
         mode = "editor",
         openAtStartup = true)
 @ActionID(
         category = "Window",
-        id = "org.myorg.myEditorSingleton.MyEditorSingletonTopComponent")
+        id = "org.myorg.myeditor.MyEditorTopComponent")
 @ActionReference(path = "Menu/Window")
-@TopComponent.OpenActionRegistration(displayName = "#CTL_MyEditorSingletonAction")
-@NbBundle.Messages({"CTL_MyEditorSingletonAction=Open Editor Singleton"})
-public class MyEditorSingleton extends TopComponent {
+@TopComponent.OpenActionRegistration(displayName = "#CTL_MyEditorAction")
+@NbBundle.Messages({"CTL_MyEditorAction=Open Editor"})
 
-    private final InstanceContent content = new InstanceContent();
+public class MyEditor extends TopComponent implements ExplorerManager.Provider {
+
+    private final ExplorerManager mgr = new ExplorerManager();
 
     /**
-     * Creates new form MyEditorSingleton
+     * Creates new form MyEditor
      */
-    public MyEditorSingleton() {
+    public MyEditor() {
         initComponents();
+        Event obj = new Event();
+        associateLookup(ExplorerUtils.createLookup(mgr, getActionMap()));
 
-        associateLookup(new AbstractLookup(content));
-        updateContent();
+        setLayout(new BorderLayout());
+        add(new BeanTreeView(), BorderLayout.CENTER);
+
+        setDisplayName("MyEditor " + obj.getIndex());
+        mgr.setRootContext(new AbstractNode(Children.create(new EventChildFactory(), true)));
     }
 
     /**
@@ -54,18 +63,12 @@ public class MyEditorSingleton extends TopComponent {
 
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
 
-        jTextField1.setText(org.openide.util.NbBundle.getMessage(MyEditorSingleton.class, "MyEditorSingleton.jTextField1.text")); // NOI18N
+        jTextField1.setEditable(false);
+        jTextField1.setText(org.openide.util.NbBundle.getMessage(MyEditor.class, "MyEditor.jTextField1.text")); // NOI18N
 
-        jTextField2.setText(org.openide.util.NbBundle.getMessage(MyEditorSingleton.class, "MyEditorSingleton.jTextField2.text")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(MyEditorSingleton.class, "MyEditorSingleton.jButton1.text")); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        jTextField2.setEditable(false);
+        jTextField2.setText(org.openide.util.NbBundle.getMessage(MyEditor.class, "MyEditor.jTextField2.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -75,10 +78,7 @@ public class MyEditorSingleton extends TopComponent {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
-                    .addComponent(jTextField2)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                    .addComponent(jTextField2))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -88,28 +88,18 @@ public class MyEditorSingleton extends TopComponent {
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addContainerGap(198, Short.MAX_VALUE))
+                .addContainerGap(232, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        updateContent();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 
-    private void updateContent() {
-        Event obj = new Event();
-        jTextField1.setText("Event #" + obj.getIndex());
-        jTextField2.setText("Created: " + obj.getDate());
-        setDisplayName("MyEditor " + obj.getIndex());
-        content.set(Collections.singleton(obj), null);
+    @Override
+    public ExplorerManager getExplorerManager() {
+        return mgr;
     }
 }
