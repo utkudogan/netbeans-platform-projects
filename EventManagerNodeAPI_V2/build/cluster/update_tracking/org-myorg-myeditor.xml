@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><module codename="org.myorg.myeditor">
+    <module_version install_time="1715783055560" last="true" origin="installer" specification_version="1.0">
+        <file crc="1953476738" name="config/Modules/org-myorg-myeditor.xml"/>
+        <file crc="1760496200" name="modules/org-myorg-myeditor.jar"/>
+    </module_version>
+</module>
