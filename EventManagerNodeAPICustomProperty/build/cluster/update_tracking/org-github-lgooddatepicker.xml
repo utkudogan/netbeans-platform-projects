@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><module codename="org.github.lgooddatepicker">
+    <module_version install_time="1715869491640" last="true" origin="installer" specification_version="1.0">
+        <file crc="2799763510" name="config/Modules/org-github-lgooddatepicker.xml"/>
+        <file crc="3389809079" name="modules/ext/LGoodDatePicker-11.2.1.jar"/>
+        <file crc="2098573160" name="modules/org-github-lgooddatepicker.jar"/>
+    </module_version>
+</module>

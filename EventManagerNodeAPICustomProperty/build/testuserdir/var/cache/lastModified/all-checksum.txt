@@ -1,0 +1,9 @@
+C:\Program Files\NetBeans-19\netbeans\platform=1692867948000
+cluster.C:/Users/bites/Desktop/projects/netbeans-platform-projects/EventManagerNodeAPICustomProperty/build/cluster=1715869492167
+cluster.C:/Program Files/NetBeans-19/netbeans/platform=1692867948000
+user=1715869492167
+crc=7
+locale=en_US
+branding=eventmanager
+java.version=17.0.9
+java.vm.version=17.0.9+11-LTS-201
