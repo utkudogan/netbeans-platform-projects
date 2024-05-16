@@ -6,6 +6,8 @@ package org.myorg.myeditor;
 
 import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeEvent;
+import java.time.ZonedDateTime;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import static javax.swing.Action.NAME;
@@ -13,9 +15,13 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import org.myorg.myapi.Event;
+import org.openide.ErrorManager;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
+import org.openide.nodes.PropertySupport;
+import org.openide.nodes.Sheet;
 import org.openide.util.ImageUtilities;
+import org.openide.util.WeakListeners;
 import org.openide.util.actions.Presenter;
 import org.openide.util.lookup.Lookups;
 
@@ -23,11 +29,12 @@ import org.openide.util.lookup.Lookups;
  *
  * @author bites
  */
-public class EventNode extends AbstractNode {
+public class EventNode extends AbstractNode implements java.beans.PropertyChangeListener {
 
     public EventNode(Event obj) {
         super(Children.create(new EventChildFactory(), true), Lookups.singleton(obj));
         setDisplayName("Event " + obj.getIndex());
+        obj.addPropertyChangeListener(WeakListeners.propertyChange(this, obj));
     }
 
     public EventNode() {
@@ -79,6 +86,13 @@ public class EventNode extends AbstractNode {
         return new Action[]{new MyAction(), new MyAction2()};
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if ("date".equals(evt.getPropertyName())) {
+            this.fireDisplayNameChange(null, getDisplayName());
+        }
+    }
+
     private class MyAction extends AbstractAction {
 
         public MyAction() {
@@ -111,5 +125,56 @@ public class EventNode extends AbstractNode {
             result.add(new JMenuItem(this));
             return result;
         }
+    }
+
+    @Override
+    protected Sheet createSheet() {
+        /* 
+        Sheet sheet = Sheet.createDefault();
+        Sheet.Set set = Sheet.createPropertiesSet();
+        Event obj = getLookup().lookup(Event.class);
+
+        try {
+            Property indexProp = new PropertySupport.Reflection(obj, Integer.class, "getIndex", null);
+            Property dateProp = new PropertySupport.Reflection(obj, String.class, "getDateAsString", "setDateFromString");
+
+            indexProp.setName("index");
+            dateProp.setName("date");
+
+            set.put(indexProp);
+            set.put(dateProp);
+        } catch (NoSuchMethodException ex) {
+            ErrorManager.getDefault();
+        }
+
+        sheet.put(set);
+        return sheet;
+         */
+
+        //Propertylerde gruplama yapar
+        Sheet sheet = Sheet.createDefault();
+        Sheet.Set set = Sheet.createPropertiesSet();
+        Sheet.Set set2 = Sheet.createPropertiesSet();
+        set2.setDisplayName("Other");
+        set2.setName("other");
+        final Event obj = getLookup().lookup(Event.class);
+        if (obj != null) {
+            try {
+                Property indexProp = new PropertySupport.Reflection(obj, Integer.class, "getIndex", null);
+                Property dateProp = new PropertySupport.Reflection(obj, String.class, "getDateAsString", "setDateFromString");
+                indexProp.setName("index");
+                dateProp.setName("date");
+
+                set.put(indexProp);
+                set2.put(dateProp);
+                set2.setValue("tabName", "Other Tab");
+            } catch (NoSuchMethodException ex) {
+                ErrorManager.getDefault();
+            }
+        }
+
+        sheet.put(set);
+        sheet.put(set2);
+        return sheet;
     }
 }
